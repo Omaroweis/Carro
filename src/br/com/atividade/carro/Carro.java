@@ -49,7 +49,7 @@ public class Carro {
 		}
 		
 	}
-	private void alterarStatusMarcha(Integer status) {
+	private void alterarStatusMarcha(StatusMarcha status) {
 		this.marcha.setStatus(status);
 		
 		this.contaGiro = 0;
@@ -59,7 +59,7 @@ public class Carro {
 	/**
 	 * calcula qual sera a velocidade resultante, admitindo a velocidade atual + a influencia da aceleracao recebida
 	 * @param aceleracao em M/S
-	 * @param tempo -> tempo em segundos em que o pedal da aceleraÁao se manteve ativo
+	 * @param tempo -> tempo em segundos em que o pedal da acelera√ßao se manteve ativo
 	 * @return
 	 */
 	private float calculaVelocidade(float aceleracao, Integer tempo) {
@@ -100,7 +100,7 @@ public class Carro {
 	}
 	
 	public void ligar() throws Exception {
-		if(this.marcha.getStatus() != 0)
+		if(this.marcha.getStatus() != StatusMarcha.NEUTRO)
 			throw new Exception(Mensagens.ERRO_LIGAR_DIFERENTE_PONTO_NEUTRO.getMsg());
 		
 		
@@ -122,21 +122,21 @@ public class Carro {
 		}
 	}
 	public void setNeutro() throws Exception {
-		if(this.marcha.getStatus() == 0)
+		if(this.marcha.getStatus() == StatusMarcha.NEUTRO)
 			throw new Exception(Mensagens.ERRO_ALTERAR_STATUS_MARCHA.getMsg());
-		this.alterarStatusMarcha(0);
+		this.alterarStatusMarcha(StatusMarcha.NEUTRO);
 	}
 	public void setDirigivel() throws Exception {
-		if(this.marcha.getStatus() == 1)
+		if(this.marcha.getStatus() == StatusMarcha.DIRIGIVEL)
 			throw new Exception(Mensagens.ERRO_ALTERAR_STATUS_MARCHA.getMsg());
 		
-		this.alterarStatusMarcha(1);
+		this.alterarStatusMarcha(StatusMarcha.DIRIGIVEL);
 		this.aumentarMarcha();
 	}
 	public void setRe() throws Exception {
-		if(this.marcha.getStatus() == -1)
+		if(this.marcha.getStatus() == StatusMarcha.RE)
 			throw new Exception(Mensagens.ERRO_ALTERAR_STATUS_MARCHA.getMsg());
-		this.alterarStatusMarcha(-1);
+		this.alterarStatusMarcha(StatusMarcha.RE);
 	}
 	/**
 	 * 
@@ -180,7 +180,7 @@ public class Carro {
 		if(this.Isligado == false) {
 			throw new Exception(Mensagens.ERRO_DESLIGADO.getMsg());
 		}
-		if(this.marcha.getStatus() == 0) {
+		if(this.marcha.getStatus() == StatusMarcha.NEUTRO) {
 			throw new Exception(Mensagens.ERRO_PONTO_MORTO.getMsg());
 		}
 		if(calculaVelocidade(aceleracao, tempo) * 3.6 > 120) {
@@ -189,13 +189,13 @@ public class Carro {
 		Random r = new Random();
 		Integer distancia = r.nextInt(20); // em metros
 				
-		if(this.marcha.getStatus() == 1) {
+		if(this.marcha.getStatus() == StatusMarcha.DIRIGIVEL) {
 			calcularContaGiro(aceleracao);
 			alterarMarcha();
 			calculaConsumo(distancia);
 			this.velocidade = calculaVelocidade(aceleracao, tempo);
 		}
-		if(this.marcha.getStatus() ==-1) {
+		if(this.marcha.getStatus() ==StatusMarcha.RE) {
 			this.contaGiro = 0;
 			
 			calculaConsumo(distancia);
@@ -206,9 +206,9 @@ public class Carro {
 	@Override
 	public String toString() {
 		if(this.Isligado) {
-			 return (this.marca + " " + this.modelo + " " + this.placa + " " + ", est· a " + this.getVelocidadeKmH() + " KM/H" + " Com combustivel = "+ this.combustivel + "L,  E est· " +  "Ligado. O status da marcha eh: " + this.marcha.toString());
+			 return (this.marca + " " + this.modelo + " " + this.placa + " " + ", esta a " + this.getVelocidadeKmH() + " KM/H" + " Com combustivel = "+ this.combustivel + "L,  E est√° " +  "Ligado. O status da marcha eh: " + this.marcha.toString());
 		}
-		return  (this.marca + " " + this.modelo + " " + this.placa + " " + ", est· a " + this.getVelocidadeKmH() + " KM/H" + " Com combustivel = "+ this.combustivel + "L,  E est· " + "Desligado. O status da marcha eh: " + this.marcha.toString());
+		return  (this.marca + " " + this.modelo + " " + this.placa + " " + ", esta a " + this.getVelocidadeKmH() + " KM/H" + " Com combustivel = "+ this.combustivel + "L,  E est√° " + "Desligado. O status da marcha eh: " + this.marcha.toString());
 	}
 	
 }

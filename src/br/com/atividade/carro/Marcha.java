@@ -2,24 +2,23 @@ package br.com.atividade.carro;
 
 public class Marcha {
 	/**
-	 * controla se a marcha do carro está em N(neutro), D(dirigível), R(ré) e o valor de marcha
+	 * controla se a marcha do carro estÃ¡ em N(neutro), D(dirigÃ­vel), R(rÃ©) e o valor de marcha
 	 */
-	private Integer status; // 0 para N, 1 para dirigível e -1 para R
-	private Integer valorMarcha; // quando valorMarcha for 0, o status é diferente de dirigível. o range da marcha vai de 1 a ;
-	
+	private StatusMarcha status; 
+	private Integer valorMarcha; 
 	Marcha(){
-		this.status = 0;
+		this.status = StatusMarcha.NEUTRO;
 		this.valorMarcha = 0;
 	}
-	
-	public void setStatus(Integer status) {
+	  
+	public void setStatus(StatusMarcha status) {
 		this.status = status;
-		if(this.status != 1) {
+		if(this.status != StatusMarcha.DIRIGIVEL) {
 			this.valorMarcha = 0;
 		}
 	}
 	public void setValorMarcha(Integer valor) throws Exception {
-		if(this.status != 1) {
+		if(this.status != StatusMarcha.DIRIGIVEL) {
 			throw new Exception(Mensagens.ERRO_MARCHA_ESTADO_DIRIGIVEL.getMsg());
 		}
 		if(valor >6 || valor<1) {
@@ -27,7 +26,7 @@ public class Marcha {
 		}
 		this.valorMarcha = valor;
 	}
-	public Integer getStatus() {
+	public StatusMarcha getStatus() {
 		return this.status;
 	}
 	public Integer getValorMarcha() {
@@ -37,11 +36,11 @@ public class Marcha {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		if(this.status == -1)
+		if(this.status == StatusMarcha.RE)
 			return (Mensagens.RE.getMsg());
-		if(this.status == 0)
+		if(this.status == StatusMarcha.NEUTRO)
 			return(Mensagens.NEUTRO.getMsg());
-		if(this.status==1) {
+		if(this.status==StatusMarcha.DIRIGIVEL) {
 			return(Mensagens.DIRIGIVEL.getMsg() +" e na "+ + this.getValorMarcha() + "a Marcha");
 		}
 		return(Mensagens.ERRO_MARCHA_INVALIDA.getMsg());
