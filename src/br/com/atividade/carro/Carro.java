@@ -87,6 +87,13 @@ public class Carro {
 
 	}
 	private void alterarMarcha() {
+		if(this.contaGiro == 0) {
+			try{
+				this.marcha.setValorMarcha(1);
+			}catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		if(this.contaGiro >= 3)
 		{
 			this.aumentarMarcha();
@@ -94,6 +101,7 @@ public class Carro {
 		else if(this.contaGiro <= 2) {
 			this.reduzirMarcha();
 		}
+		
 	}
 	private void calculaConsumo(Integer distancia) { // 1L por km
 		this.combustivel-= (float)(distancia/10);
@@ -115,11 +123,7 @@ public class Carro {
 	public void parar() {
 		this.velocidade = (float) 0;
 		this.contaGiro = 0;
-		try{
-			this.marcha.setValorMarcha(1);
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		alterarMarcha();
 	}
 	public void setNeutro() throws Exception {
 		if(this.marcha.getStatus() == StatusMarcha.NEUTRO)
